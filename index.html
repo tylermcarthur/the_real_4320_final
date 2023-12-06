@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4320 Final</title>
+    <link rel="stylesheet" href="../static/stylesheet.css">
+</head>
+<body>
+    <div id="topBar">
+        <a class="topBar_btn" id="home_btn" href="/">Home</a>
+        <a class="topBar_btn" id="admin_btn" href="/admin">Admin</a>
+        <a class="topBar_btn" id="reservations_btn" href="/reservation">Reservations</a>
+    </div>
+    <hr id="page_seperator">
+    <div id="menu">
+        <div id="menu_txt_1">IT-4320 Trip Reservation System</div>
+        <hr id="menu_seperator">
+        <div id="menu_txt_2">Welcome to the IT-4320 reservation system. Use the select box to choose whether to make a reservation or log in as administrator</div>
+
+        <form id="menu_form" action="/home_btn_selector" method="post">
+            <label id="menu_txt_3" for="menu_option">Choose Menu Option:</label>
+            <br>
+            <select id="menu_option" name="menu_option" required onchange="enableSubmit()">
+                <option value="" disabled selected>Choose An Option</option>
+                <option value="admin">Admin Login</option>
+                <option value="reserve">Reserve a Seat</option>
+            </select>
+            <br>
+            <button id="menu_btn" type="submit" disabled>Submit</button>
+        </form>
+
+        </div>
+</body>
+</html>
