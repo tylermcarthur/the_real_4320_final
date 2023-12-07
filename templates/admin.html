@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4320 Final</title>
+    <link rel="stylesheet"  href="../static/stylesheet.css" >
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <div id="topBar">
+        <a class="topBar_btn" id="home_btn" href="/">Home</a>
+        <a class="topBar_btn" id="admin_btn" href="/admin">Admin</a>
+        <a class="topBar_btn" id="reservations_btn" href="/reservation">Reservations</a>
+    </div>
+    <hr id="page_seperator">
+    <div id="menu">
+        <div id="menu_txt_1">Administrator Login</div>
+        <hr id="menu_seperator">
+
+        <div id="seating_chart_txt"></div>
+        <div id="seating_chart">
+            <table id="seatingTable">
+            </table>
+        </div>
+        <div id="price_txt"></div>
+        <form id="menu_form" onsubmit="update_admin_seating_chart(); return false;">
+            <label id="menu_txt_3" for="menu_option_username">Username</label><br>
+            <input type="text" id="menu_option_username" name="menu_option_username" required><br>
+            <label id="menu_txt_3" for="menu_option_password">Password</label><br>
+            <input type="password" id="menu_option_password" name="menu_option_password" required>
+            <br>
+            <button id="menu_btn" type="submit">Login</button>
+        </form>
+    </div>
+    <script>
+function update_admin_seating_chart() {
+    var username = $('#menu_option_username').val(); 
+    var password = $('#menu_option_password').val(); 
+    $.ajax({
+        type: 'POST',
+        url: '/update_admin_seating_chart',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify({
+            menu_option_username: username,
+            menu_option_password: password 
+        }),
+        success: function(data) {
+            seating_chart = data.seating_chart
+            message = data.message
+            total_sales = data.total_sales
+            
+            updateSeatingTable()
+            updateMessage()
+            updateTotalSales()
+
+            $('#menu_option_username').val('')
+            $('#menu_option_password').val('')
+        },
+        error: function(error) {
+            console.log('Error updating seating chart:', error)
+            alert('Incorrect username or password. Please try again.')
+        }
+    });
+}
+// man I love javascript
+function updateMessage(){
+    $('#seating_chart_txt').html(message)
+}
+function updateTotalSales(){
+    $('#price_txt').html(total_sales)
+}
+
+function updateSeatingTable() {
+    var tableHTML = ''
+    for (var i = 0; i < seating_chart.length; i++) {
+        tableHTML += '<tr>'
+        tableHTML += '<td>[</td>'
+        for (var j = 0; j < seating_chart[i].length; j++) {
+            tableHTML += '<td>' + seating_chart[i][j] + '</td>'
+        }
+        tableHTML += '<td>]</td>'
+        tableHTML += '</tr>'
+    }
+    $('#seatingTable').html(tableHTML)
+}
+    </script>
+</body>
+</html>

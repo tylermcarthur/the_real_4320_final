@@ -1,0 +1,88 @@
+body {
+    background-color: #d1d8e3;
+}
+#topBar{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: flex-start;
+    column-gap: 5%;
+}
+.topBar_btn{
+    color: red;
+    font-size: 200%;
+    text-shadow: 1px 1px black;
+    width: 5%;
+    cursor: pointer;
+}
+#page_seperator{
+    border-color: black;
+}
+#menu_seperator{
+    border-color: black;
+    margin: 20px;
+}
+
+#menu{
+    margin: auto;
+    width: 60%;
+    background-color: white;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
+#menu_txt_1{
+    margin-top: 30px;
+    text-align: center;
+    font-size: 200%;
+    font-weight: bold;
+}
+#menu_txt_2{
+    font-weight: bold;
+    margin-left: 20px;
+}
+#menu_txt_3{
+    font-weight: bold;
+}
+#menu_form{
+    margin-top: 20px;
+    margin-left: 20px;
+    
+}
+#menu_btn{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#seating_chart{
+    margin-left: 40px;
+    width: 11%;
+}
+table{
+    width: 100%;
+    border-radius: 5px;
+    background-color: #b3b3b3;
+}
+#seating_chart_txt{
+    font-size: 150%;
+    font-weight: bold;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+#seating_chart_txt_2{
+    font-size: 100%;
+    font-weight: bold;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+#explanation_txt{
+    font-size: 100%;
+    font-weight: bold;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+#price_txt{
+    font-size: 150%;
+    margin-top: 20px;
+    font-weight: bold;
+    margin-left: 20px;
+}
