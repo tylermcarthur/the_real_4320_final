@@ -30,6 +30,26 @@
             <button id="menu_btn" type="submit" disabled>Submit</button>
         </form>
 
-        </div>
+        <script>
+
+            // a little redundancy never hurt anyone
+            function enableSubmit() {
+                var option = document.getElementById("menu_option");
+                var submitBtn = document.getElementById("menu_btn");
+                submitBtn.disabled = option.value === "";
+            }
+
+            function validateForm() {
+                var selectedOption = document.getElementById("menu_option").value;
+
+                if (selectedOption === "") {
+                    alert("Please choose an option.");
+                    return false; // prevent form submission
+                }
+
+                return true; // allow form submission
+            }
+        </script>
+    </div>
 </body>
 </html>

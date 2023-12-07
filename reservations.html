@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4320 Final</title>
+    <link rel="stylesheet"  href="../static/stylesheet.css" >
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body onload="update_reservation_seating_chart()">
+    <div id="topBar">
+        <a class="topBar_btn" id="home_btn" href="/">Home</a>
+        <a class="topBar_btn" id="admin_btn" href="/admin">Admin</a>
+        <a class="topBar_btn" id="reservations_btn" href="/reservation">Reservations</a>
+    </div>
+    <hr id="page_seperator">
+
+    <div id="menu">
+        <div id="menu_txt_1">Reserve Your Seat</div>
+        <hr id="menu_seperator">
+
+        <div id="seating_chart_txt_2"></div>
+        <div id="seating_chart_txt">Seating Chart</div><br>
+        <div id="explanation_txt">X = Reserved Seat : O = Available Seat</div>
+        <div id="seating_chart">
+            <table id="seatingTable">
+            </table>
+        </div>
+        <div id="price_txt"></div>
+        <form id="menu_form" onsubmit="update_reservation_seating_chart(); return false;">
+            <label id="menu_txt_3" for="menu_option_FName">First Name</label><br>
+            <input type="text" id="menu_option_FName" name="menu_option_FName" required><br>
+            <label id="menu_txt_3" for="menu_option_LName">Last Name</label><br>
+            <input type="text" id="menu_option_LName" name="menu_option_LName" required><br>
+            <label for="menu_option_row">Choose a Row:</label><br>
+            <select id="menu_option_row" name="menu_option_row" required onchange="enableSubmit()">
+                <option value="" disabled selected>Choose a Row</option>
+                <option value="0">1</option>
+                <option value="1">2</option>
+                <option value="2">3</option>
+                <option value="3">4</option>
+                <option value="4">5</option>
+                <option value="5">6</option>
+                <option value="6">7</option>
+                <option value="7">8</option>
+                <option value="8">9</option>
+                <option value="9">10</option>
+                <option value="10">11</option>
+                <option value="11">12</option>
+            </select><br>
+            <label for="menu_option_seat">Choose a Seat:</label><br>
+            <select id="menu_option_seat" name="menu_option_seat" required onchange="enableSubmit()">
+                <option value="" disabled selected>Choose a Seat</option>
+                <option value="0">1</option>
+                <option value="1">2</option>
+                <option value="2">3</option>
+                <option value="3">4</option>
+            </select><br>
+            <button id="menu_btn" type="submit" disabled>Submit</button>
+        </form>
+    </div>
+    <script>
+function enableSubmit() {
+    var menu_option_row = document.getElementById("menu_option_row")
+    var menu_option_seat = document.getElementById("menu_option_seat")
+    var submitBtn = document.getElementById("menu_btn")
+    submitBtn.disabled = (menu_option_row.value === "" || menu_option_seat.value === "")
+}
+
+function update_reservation_seating_chart() {
+    var fname = $('#menu_option_FName').val() 
+    var lname = $('#menu_option_LName').val() 
+    var row = $('#menu_option_row').val() 
+    var seat = $('#menu_option_seat').val() 
+    $.ajax({
+        type: 'POST',
+        url: '/update_reservation_seating_chart',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify({
+            menu_option_FName: fname,
+            menu_option_LName: lname,
+            menu_option_row: row,
+            menu_option_seat: seat
+        }),
+        success: function(data) {
+            seating_chart = data.seating_chart
+            message = data.message
+         
+            updateSeatingTable()
+            updateMessage()
+
+            $('#menu_option_FName').val('')
+            $('#menu_option_LName').val('')
+            $('#menu_option_row').val('')
+            $('#menu_option_seat').val('')
+            document.getElementById("menu_btn").disabled = true
+        },
+        error: function(error) {
+            console.log('Error updating seating chart:', error)
+            alert('That seat is already taken. Please try again.')
+        }
+    });
+}
+
+function updateMessage(){
+    $('#seating_chart_txt_2').html(message)
+}
+function updateTotalSales(){
+    $('#price_txt').html(total_sales)
+}
+function updateSeatingTable() {
+    var tableHTML = ''
+    for (var i = 0; i < seating_chart.length; i++) {
+        tableHTML += '<tr>'
+            tableHTML += '<td>[</td>'
+            for (var j = 0; j < seating_chart[i].length; j++) {
+                tableHTML += '<td>' + seating_chart[i][j] + '</td>'
+            }
+            tableHTML += '<td>]</td>'
+            tableHTML += '</tr>'
+        }
+        $('#seatingTable').html(tableHTML)
+    }
+    </script>
+</body>
+</html>
